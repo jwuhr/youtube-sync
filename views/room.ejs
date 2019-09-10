@@ -1,0 +1,135 @@
+<% include ./partials/header %>
+
+<div>
+    <h2 id="roomName"><%= roomName %></h2>
+    <h2>Username: <%= username %></h2>
+</div>
+
+<iframe id="player" type="text/html" width="800" height="500"
+    src="http://www.youtube.com/embed/?autoplay=1&enablejsapi=1&playsupported=true&mute=1"
+    allow="autoplay; fullscreen" allowfullscreen frameborder="0"></iframe>
+
+<form action="" id="url">
+    <input type="text" id="youtubeURL" placeholder="Enter YouTube link" value="">
+    <input type="submit">
+</form>
+
+<!-- jQuery CDN -->
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"
+    integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous">
+    </script>
+
+<script src="/node_modules/socket.io-client/dist/socket.io.js."></script>
+
+<script>
+
+    var roomName = document.getElementById("roomName").innerHTML;
+    var socket = io({query: "roomName="+roomName});
+    var expected = 'unstarted';
+
+    $(function () {
+        $('#url').submit(function (e) {
+            e.preventDefault(); // prevents page reloading
+            socket.emit('newVideo', $('#youtubeURL').val(), roomName);
+            $('#youtubeURL').val('');
+            return false;
+        });
+    });
+
+    // 2. This code loads the IFrame Player API code asynchronously.
+    var tag = document.createElement('script');
+
+    tag.src = "https://www.youtube.com/iframe_api";
+    var firstScriptTag = document.getElementsByTagName('script')[0];
+    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+    // 3. This function creates an <iframe> (and YouTube player)
+    //    after the API code downloads.
+    var player;
+    function onYouTubeIframeAPIReady() {
+        player = new YT.Player('player', {
+            playerVars: {
+                'autoplay': 1,
+                'playsupported': true,
+                'mute': 1,
+                'fs': 1
+            },
+            events: {
+                'onReady': onPlayerReady,
+                'onStateChange': onPlayerStateChange
+            }
+        });
+
+        socket.on('playPlayer', function () {
+            expected = 'play';
+            playVideo();
+        });
+
+        socket.on('pausePlayer', function () {
+            expected = 'pause';
+            pauseVideo();
+        });
+
+        socket.on('bufferingPlayer', function (time) {
+            player.seekTo(time, true);
+        });
+
+        socket.on('newVideo', function (videoID) {
+            player.cueVideoById(videoID, 0);
+        });
+
+        socket.on('newUser', function () {
+            socket.emit('requestCurrentVideo');
+        });
+
+    };
+
+    // 4. The API will call this function when the video player is ready.
+    function onPlayerReady(event) {
+        // event.target.playVideo();
+
+    };
+
+    function emitState(playerStatus) {
+        if (playerStatus == 0) {
+            socket.emit('end', roomName); // ended = yellow
+        } else if (playerStatus == 1 && expected != 'play') {
+            socket.emit('play', roomName); // playing = green
+        } else if (playerStatus == 2 && expected != 'pause') {
+            socket.emit('pause', roomName); // paused = red
+        } else if (playerStatus == 3) {
+            socket.emit('buffering', player.getCurrentTime(), roomName); // buffering = purple
+        } else if (playerStatus == 5) {
+            socket.emit('status5')
+        } else if (playerStatus == -1) {
+            socket.emit('statusminus1')
+        }
+    };
+
+    function onPlayerStateChange(event) {
+        emitState(event.data);
+    };
+
+    function stopVideo() {
+        player.stopVideo();
+    };
+
+    function pauseVideo() {
+        player.pauseVideo();
+    };
+
+    function playVideo() {
+
+        player.playVideo();
+        // setTimeout(function () {
+        //     if (player.isMuted()) {
+        //         player.unMute();
+        //     }
+        // }, 1000);
+    }
+
+//---------------------------------------------------
+
+</script>
+
+<% include ./partials/footer %>
