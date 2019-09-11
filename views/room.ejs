@@ -1,8 +1,12 @@
 <% include ./partials/header %>
 
-<div>
-    <h2 id="roomName"><%= roomName %></h2>
-    <h2>Username: <%= username %></h2>
+<div class="">
+    <h2 class="" id="roomName"><%= roomName %></h2>
+
+    <p>Username:</p>
+    <p id="userName"><%= username %></p>
+    <p>Connected Users:</p>
+    <p id="connectedUsers"></p>
 </div>
 
 <iframe id="player" type="text/html" width="800" height="500"
@@ -16,15 +20,22 @@
 
 <!-- jQuery CDN -->
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"
-    integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous">
-    </script>
+    integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+</script>
 
 <script src="/socket.io/socket.io.js"></script>
 
 <script>
 
     var roomName = document.getElementById("roomName").innerHTML;
-    var socket = io({query: "roomName="+roomName});
+    var userName = document.getElementById("userName").innerHTML;
+    // var connectedUsers = document.getElementById("connectedUsers").innerHTML;
+    var socket = io({
+        query: {
+            roomName: roomName,
+            userName: userName
+        }
+    });
     var expected = 'unstarted';
 
     $(function () {
@@ -81,6 +92,10 @@
 
         socket.on('newUser', function () {
             socket.emit('requestCurrentVideo');
+        });
+
+        socket.on('newUser', function (user) {
+            document.getElementById('connectedUsers').innerHTML += user;
         });
 
     };

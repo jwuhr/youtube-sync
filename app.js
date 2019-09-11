@@ -32,10 +32,10 @@ app.use(express.static(__dirname + "/public"));
 //--------------------------------------------------
 
 io.on('connection', function(socket){
+    io.to(socket.handshake.query.roomName).emit('newUser', socket.handshake.query.userName);
     socket.join(socket.handshake.query.roomName, function(){
         io.to('${socketId}').emit('newUser');
     });
-    console.log("socket connected! Room Name:", socket.handshake.query.roomName)
     // socket.on('end', function(){
     //     console.log('State: end');
     // });
