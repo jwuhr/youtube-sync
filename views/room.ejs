@@ -1,22 +1,32 @@
 <% include ./partials/header %>
 
-<div class="">
-    <h2 class="" id="roomName"><%= roomName %></h2>
+<div id="roomTitle" class="ui main text container center aligned">
+    <h2 class="ui header" id="roomName"><%= roomName %></h2>
+    <div class="sub header">
+        <p id="userName">Username: <%= username %></p>
+        <!-- <p><%= username %></p> -->
+    </div>
+</div>
 
-    <p>Username:</p>
-    <p id="userName"><%= username %></p>
+<div class="">
     <p>Connected Users:</p>
     <p id="connectedUsers"></p>
 </div>
-
-<iframe id="player" type="text/html" width="800" height="500"
-    src="https://www.youtube.com/embed/?autoplay=1&enablejsapi=1&playsupported=true&mute=1&origin=https://youtube-syncer-app.herokuapp.com"
-    allow="autoplay; fullscreen" allowfullscreen frameborder="0"></iframe>
 
 <form action="" id="url">
     <input type="text" id="youtubeURL" placeholder="Enter YouTube link" value="">
     <input type="submit">
 </form>
+
+<div class="videoWrapper">
+    <iframe id="player" type="text/html"
+        src="https://www.youtube.com/embed/?autoplay=1&enablejsapi=1&playsupported=true&mute=1&origin=https://youtube-syncer-app.herokuapp.com"
+        allow="autoplay; fullscreen" allowfullscreen frameborder="0"></iframe>
+</div>
+
+
+
+
 
 <!-- jQuery CDN -->
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"
@@ -26,9 +36,10 @@
 <script src="/socket.io/socket.io.js"></script>
 
 <script>
-
-    var roomName = document.getElementById("roomName").innerHTML;
-    var userName = document.getElementById("userName").innerHTML;
+    var roomArray = document.getElementById("roomName").innerHTML.split(":")
+    var roomName = roomArray[roomArray.length-1];
+    var nameArray = document.getElementById("userName").innerHTML.split(":")
+    var userName = nameArray[nameArray.length-1].trim();
     // var connectedUsers = document.getElementById("connectedUsers").innerHTML;
     var socket = io({
         query: {
@@ -70,6 +81,14 @@
                 'onReady': onPlayerReady,
                 'onStateChange': onPlayerStateChange
             }
+        });
+
+        // player.onPlaybackRateChange(function(){
+        //     socket.emit('playback', player.getPlaybackRate(), roomName);
+        // });
+
+        socket.on('playbackPlayer', function(rate){
+            player.setPlaybackRate(rate);
         });
 
         socket.on('playPlayer', function () {

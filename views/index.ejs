@@ -1,12 +1,23 @@
 <% include ./partials/header %>
+<div class="pushable">
+    <div id="title" class="ui inverted vertical masthead center aligned segment">
+        <h1 id="header">Youtube Sync</h1>
+    </div>
 
-<h1>Youtube Sync</h1>
-
-<form action="/" method="POST">
-    <input type="text" name="roomName" placeholder="Enter room name">
-    <input type="text" name="username" placeholder="Enter username">
-    <button>Create/Join Room</button>
-</form>
+    <div class="pusher">
+        <div class="ui vertical masthead center aligned segment">
+            <form action="/" method="POST">
+                <div id="inputForm" class="ui input focus">
+                    <input required id="roomNameInput" type="text" name="roomName" placeholder="Enter room name">
+                    <input required type="text" name="username" placeholder="Enter username">
+                </div>
+                <div id="createRoomButtonDiv">
+                    <button id="createRoomButton" class="ui primary button">Create/Join Room</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
 
 <!-- jQuery CDN -->

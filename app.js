@@ -54,6 +54,10 @@ io.on('connection', function(socket){
         console.log('State: buffering: '+time);
         io.to(room).emit('bufferingPlayer', time);
     });
+    socket.on('playback', function(rate, room){
+        console.log('Playback change: '+rate);
+        io.to(room).emit('playbackPlayer', rate);
+    });
     // socket.on('status5', function(time){
     //     console.log('5');
     // });

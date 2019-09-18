@@ -4,21 +4,53 @@
 body { 
     font: 13px Helvetica, Arial; 
 }
-/* form { 
-    background: #000; padding: 3px; position: fixed; bottom: 0; width: 100%; 
+#title {
+    height: 40%;
+    position: relative;
+    background-image: linear-gradient(to bottom right, #246EB9, #F5EE9E);
 }
-form input { 
-    border: 0; padding: 10px; width: 90%; margin-right: .5%; 
+#header {
+    font-size: 4rem;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
-form button { 
-    width: 9%; background: rgb(130, 224, 255); border: none; padding: 10px; 
+#createRoomButtonDiv {
+    margin: 1rem;
 }
-#messages { 
-    list-style-type: none; margin: 0; padding: 0; 
+#createRoomButton {
+    background-color: #EF8B73;
 }
-#messages li { 
-    padding: 5px 10px; 
+#inputForm {
+    margin: 2rem;
 }
-#messages li:nth-child(odd) { 
-    background: #eee; 
-} */
+#roomNameInput {
+    margin-right: 2rem;
+}EF8B73
+
+
+
+#roomTitle {
+    /* margin: 3rem; */
+    padding-top: 20px;
+}
+#roomName {
+    color: #3B5998;
+}
+.videoWrapper {
+    position: relative;
+    overflow: hidden;
+    padding-top: 56.25%;
+    max-height: 500px;
+}
+.videoWrapper iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+    max-width: 1000px;
+    max-height: 563px;
+}
