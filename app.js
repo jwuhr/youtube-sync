@@ -28,7 +28,7 @@ io.on('connection', function(socket){
 
     //VIDEO========================================
     
-    io.to(socket.handshake.query.roomName).emit('newUser', socket.handshake.query.userName);
+    io.to(socket.handshake.query.roomName).emit('newUser');
     socket.join(socket.handshake.query.roomName, function(){
         io.to('${socketId}').emit('newUser');
     });
@@ -125,13 +125,12 @@ app.get('/', function (req, res) {
 
 app.post("/", function(req, res){
     var roomName = req.body.roomName;
-    var username = req.body.username;
 
-    res.redirect("/room/" + roomName + "/?user=" + username);
+    res.redirect("/room/" + roomName);
 });
 
 app.get("/room/:id", function(req, res){
-    res.render("room", {roomName: req.params.id, username: req.query.user});
+    res.render("room", {roomName: req.params.id});
 });
 
 app.get('/', function (req, res) {

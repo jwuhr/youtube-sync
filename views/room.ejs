@@ -29,7 +29,7 @@
             </li>
             <li class="login page">
                 <div class="form">
-                    <h3 class="title">What's your nickname?</h3>
+                    <h3 class="title">What's your username?</h3>
                     <input class="usernameInput" type="text" maxlength="14" />
                 </div>
             </li>
@@ -45,12 +45,9 @@
 <script>
     var roomArray = document.getElementById("roomName").innerHTML.split(":")
     var roomName = roomArray[roomArray.length-1];
-    var nameArray = document.getElementById("userName").innerHTML.split(":")
-    var userName = nameArray[nameArray.length-1].trim();
     var socket = io({
         query: {
-            roomName: roomName,
-            userName: userName
+            roomName: roomName
         }
     });
     var expected = 'unstarted';
@@ -98,6 +95,7 @@
     // 4. The API will call this function when the video player is ready.
     function onPlayerReady(event) {
         console.log("ready")
+        $("iframe").attr("src", "https://www.youtube.com/embed/?autoplay=1&enablejsapi=1&playsupported=true&mute=1&origin=https://youtube-syncer-app.herokuapp.com")
         socket.on('playPlayer', function () {
             expected = 'play';
             playVideo();
