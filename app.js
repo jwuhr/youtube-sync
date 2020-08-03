@@ -1,5 +1,4 @@
-var bodyParser     = require("body-parser");
-
+var bodyParser = require("body-parser");
 var express = require("express");
 var path = require('path');
 var app = express();
@@ -12,15 +11,11 @@ server.listen(port, function(){
     console.log("listening on port 3000");
 });
 
-// Routing
 app.use(express.static(path.join(__dirname, 'public')));
-
-// Chatroom
-
-var numUsers = 0;
-
 app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine", "ejs");
+
+var numUsers = 0;
 
 //--------------------------------------------------
 
