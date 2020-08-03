@@ -8,7 +8,7 @@ body {
 #title {
     height: 40%;
     position: relative;
-    background-image: linear-gradient(to bottom right, #246EB9, #F5EE9E);
+    background-image: linear-gradient(to bottom right, #FF0000, #F5EE9E);
 }
 #header {
     font-size: 4rem;
@@ -21,17 +21,20 @@ body {
     margin: 1rem;
 }
 #createRoomButton {
-    background-color: #EF8B73;
+    background-color: #fc4a31;
 }
 #inputForm {
-    margin: 2rem;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
 }
 
 #roomTitle {
-    padding-top: 30px;
+    padding-top: 100px;
 }
 #roomName {
-    color: #3B5998;
+    color: #fc4a31;
+    font-size: 300%;
+    font-family: 'Archivo Black', sans-serif; 
 }
 .videoWrapper {
     position: relative;
@@ -45,4 +48,12 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
+}
+
+#url {
+    width: 100%;
+}
+
+#main {
+    margin-top: 80px
 }

@@ -4,31 +4,37 @@
     <h2 class="ui header" id="roomName"><%= roomName %></h2>
 </div>
 
-<div class="ui three centered column grid">
-    <div class="ten wide column">
-        <form id="url">
-            <input type="text" id="youtubeURL" placeholder="Enter YouTube link">
-            <input type="submit">
-        </form>
-        <div class="videoWrapper">
-                <div id="player"></div>
+<div id="main" class="ui three centered column grid">
+    <div class="row">
+        <div class="ten wide column">
+            <form id="url" class="ui action input">
+                <input type="text" id="youtubeURL" placeholder="Enter YouTube link">
+                <button type="submit" class="ui button lightgrey">Submit</button>
+            </form>
         </div>
     </div>
-    <div class="four wide column">
-        <ul class="pages">
-            <li class="chat page">
-                <div class="chatArea">
-                    <ul class="messages"></ul>
-                </div>
-                <input class="inputMessage" placeholder="Type here..." />
-            </li>
-            <li class="login page">
-                <div class="form">
-                    <h3 class="title">What's your username?</h3>
-                    <input class="usernameInput" type="text" maxlength="14" />
-                </div>
-            </li>
-        </ul>
+    <div class="row">
+        <div class="eleven wide column">
+            <div class="videoWrapper">
+                    <div id="player"></div>
+            </div>
+        </div>
+        <div id="chat-div" class="three wide column">
+            <ul class="pages">
+                <li class="chat page">
+                    <div class="chatArea">
+                        <ul class="messages"></ul>
+                    </div>
+                    <input class="inputMessage" placeholder="Type here..." />
+                </li>
+                <li class="login page">
+                    <div class="form">
+                        <h3 class="title">Enter username:</h3>
+                        <input class="usernameInput" type="text" maxlength="14" />
+                    </div>
+                </li>
+            </ul>
+        </div>
     </div>
 </div>
 

@@ -48,7 +48,6 @@ io.on('connection', function(socket){
     });
     socket.on('newVideo', function(url, room){
         console.log('New Video!');
-        console.log(url);
         var newVideoID = url.split('v=')[1];
         io.to(room).emit('newVideo', newVideoID);
     });

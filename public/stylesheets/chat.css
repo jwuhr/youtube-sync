@@ -47,7 +47,8 @@
   /* Login Page */
   
   .login.page {
-    background-color: #000;
+    background-color: #fc4a31;
+    border-radius: 5px;
   }
   
   .login.page .form {
@@ -67,7 +68,7 @@
     outline: none;
     padding-bottom: 15px;
     text-align: center;
-    width: 400px;
+    width: 200px;
   }
 
   .login.page .title {
@@ -75,7 +76,7 @@
   }
   
   .login.page .usernameInput {
-    font-size: 200%;
+    font-size: 150%;
     letter-spacing: 3px;
   }
   
@@ -88,6 +89,7 @@
   
   .chat.page {
     display: none;
+    border-radius: 5px;
   }
   
   /* Font */
@@ -135,7 +137,10 @@
   /* Input */
   
   .inputMessage {
-    border: 10px solid #000;
+    border-top: 1px solid #000;
+    border-bottom: none;
+    border-left: none;
+    border-right: none;
     bottom: 0;
     height: 60px;
     left: 0;
@@ -143,5 +148,6 @@
     padding-left: 10px;
     position: absolute;
     right: 0;
-    width: 100%;
+    width: 95%;
+    align-content: center;
   }
