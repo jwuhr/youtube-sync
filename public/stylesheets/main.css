@@ -4,6 +4,7 @@
 body { 
     font: 13px Helvetica, Arial; 
 }
+
 #title {
     height: 40%;
     position: relative;
@@ -27,13 +28,16 @@ body {
 }
 #roomNameInput {
     margin-right: 2rem;
-}EF8B73
+}
+
+
+
 
 
 
 #roomTitle {
     /* margin: 3rem; */
-    padding-top: 20px;
+    padding-top: 30px;
 }
 #roomName {
     color: #3B5998;
@@ -50,7 +54,6 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    border: 0;
-    max-width: 1000px;
-    max-height: 563px;
+    /* max-width: 1000px;
+    max-height: 563px; */
 }

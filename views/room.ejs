@@ -2,37 +2,44 @@
 
 <div id="roomTitle" class="ui main text container center aligned">
     <h2 class="ui header" id="roomName"><%= roomName %></h2>
-    <div class="sub header">
-        <p id="userName">Username: <%= username %></p>
-        <!-- <p><%= username %></p> -->
+</div>
+
+<div class="ui three centered column grid">
+    <div class="ten wide column">
+        <form id="url">
+            <input type="text" id="youtubeURL" placeholder="Enter YouTube link">
+            <input type="submit">
+        </form>
+        <div class="videoWrapper">
+            <!-- TODO -->
+            <!-- src="https://www.youtube.com/embed/?autoplay=1&enablejsapi=1&playsupported=true&mute=1&origin=https://youtube-syncer-app.herokuapp.com" -->
+            <!-- <iframe id="player" type="text/html"
+                src="https://www.youtube.com/embed/?autoplay=1&enablejsapi=1&playsupported=true"
+                allow="autoplay; fullscreen" allowfullscreen frameborder="0"></iframe> -->
+                <div id="player"></div>
+        </div>
+    </div>
+    <div class="four wide column">
+        <ul class="pages">
+            <li class="chat page">
+                <div class="chatArea">
+                    <ul class="messages"></ul>
+                </div>
+                <input class="inputMessage" placeholder="Type here..." />
+            </li>
+            <li class="login page">
+                <div class="form">
+                    <h3 class="title">What's your nickname?</h3>
+                    <input class="usernameInput" type="text" maxlength="14" />
+                </div>
+            </li>
+        </ul>
     </div>
 </div>
 
-<div class="">
-    <p>Connected Users:</p>
-    <p id="connectedUsers"></p>
-</div>
-
-<form action="" id="url">
-    <input type="text" id="youtubeURL" placeholder="Enter YouTube link" value="">
-    <input type="submit">
-</form>
-
-<div class="videoWrapper">
-    <iframe id="player" type="text/html"
-        src="https://www.youtube.com/embed/?autoplay=1&enablejsapi=1&playsupported=true&mute=1&origin=https://youtube-syncer-app.herokuapp.com"
-        allow="autoplay; fullscreen" allowfullscreen frameborder="0"></iframe>
-</div>
-
-
-
-
-
 <!-- jQuery CDN -->
-<script src="https://code.jquery.com/jquery-3.4.1.min.js"
-    integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
-</script>
-
+<script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+<script src="/js/main.js"></script>
 <script src="/socket.io/socket.io.js"></script>
 
 <script>
@@ -40,7 +47,6 @@
     var roomName = roomArray[roomArray.length-1];
     var nameArray = document.getElementById("userName").innerHTML.split(":")
     var userName = nameArray[nameArray.length-1].trim();
-    // var connectedUsers = document.getElementById("connectedUsers").innerHTML;
     var socket = io({
         query: {
             roomName: roomName,
@@ -52,6 +58,7 @@
     $(function () {
         $('#url').submit(function (e) {
             e.preventDefault(); // prevents page reloading
+            console.log($('#youtubeURL').val())
             socket.emit('newVideo', $('#youtubeURL').val(), roomName);
             $('#youtubeURL').val('');
             return false;
@@ -71,11 +78,12 @@
     function onYouTubeIframeAPIReady() {
         player = new YT.Player('player', {
             playerVars: {
-                'autoplay': 1,
-                'playsupported': true,
-                'mute': 1,
-                'fs': 1,
-                'origin': 'https://youtube-syncer-app.herokuapp.com'
+                autoplay: 1,
+                playsupported: true,
+                mute: 0,
+                fs: 1,
+                rel: 0,
+                origin: 'https://youtube-syncer-app.herokuapp.com'
             },
             events: {
                 'onReady': onPlayerReady,
@@ -83,14 +91,13 @@
             }
         });
 
-        // player.onPlaybackRateChange(function(){
-        //     socket.emit('playback', player.getPlaybackRate(), roomName);
-        // });
+    };
 
-        socket.on('playbackPlayer', function(rate){
-            player.setPlaybackRate(rate);
-        });
+    
 
+    // 4. The API will call this function when the video player is ready.
+    function onPlayerReady(event) {
+        console.log("ready")
         socket.on('playPlayer', function () {
             expected = 'play';
             playVideo();
@@ -105,24 +112,13 @@
             player.seekTo(time, true);
         });
 
-        socket.on('newVideo', function (videoID) {
-            player.cueVideoById(videoID, 0);
+        socket.on('newVideo', function (id) {
+            player.loadVideoById(id, 0);
         });
 
         socket.on('newUser', function () {
             socket.emit('requestCurrentVideo');
         });
-
-        socket.on('newUser', function (user) {
-            document.getElementById('connectedUsers').innerHTML += user;
-        });
-
-    };
-
-    // 4. The API will call this function when the video player is ready.
-    function onPlayerReady(event) {
-        // event.target.playVideo();
-
     };
 
     function emitState(playerStatus) {
@@ -154,13 +150,7 @@
     };
 
     function playVideo() {
-
         player.playVideo();
-        // setTimeout(function () {
-        //     if (player.isMuted()) {
-        //         player.unMute();
-        //     }
-        // }, 1000);
     }
 
 //---------------------------------------------------
