@@ -19,7 +19,7 @@
     "express-flash": "0.0.2",
     "express-sanitizer": "^1.0.5",
     "method-override": "^3.0.0",
-    "moment": "^2.24.0",
+    "moment": "^2.29.4",
     "nodemon": "^1.19.2",
     "path": "^0.12.7",
     "request": "^2.88.0",
